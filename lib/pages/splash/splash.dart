@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, unused_import, unused_element, non_constant_identifier_names
 
-import 'package:app_for_agency/login_pages/login_page.dart';
+import 'package:app_for_agency/pages/login_pages/login_page.dart';
 import 'package:app_for_agency/repo/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -10,7 +10,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../homepage/homepage.dart';
-import '../sharedprofems/shared.dart';
+import '../../repo/sharedprofems/shared.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -25,6 +25,7 @@ String number = "";
 
 class _SplashPageState extends State<SplashPage> {
   Future<void> _navigateToMainScreen() async {
+    context.read<Mainprovider>().getlogins();
     Islog = await UserSimplePreferences.getislogin() ?? false;
     if (Islog) {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(

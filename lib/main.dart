@@ -1,7 +1,7 @@
 
 import 'package:app_for_agency/repo/provider.dart';
-import 'package:app_for_agency/sharedprofems/shared.dart';
-import 'package:app_for_agency/splash/splash.dart';
+import 'package:app_for_agency/repo/sharedprofems/shared.dart';
+import 'package:app_for_agency/pages/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';

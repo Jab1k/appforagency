@@ -6,7 +6,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../sharedprofems/shared.dart';
+import '../../repo/sharedprofems/shared.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
