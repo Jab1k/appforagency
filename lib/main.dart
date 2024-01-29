@@ -1,8 +1,28 @@
-import 'package:app_for_agency/homepage/homepage.dart';
-import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:app_for_agency/repo/provider.dart';
+import 'package:app_for_agency/sharedprofems/shared.dart';
+import 'package:app_for_agency/splash/splash.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+void main() async{
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => Mainprovider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  await UserSimplePreferences.init();
 }
 
 class MyApp extends StatelessWidget {
@@ -11,14 +31,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
        
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const SplashPage(),
     );
   }
 }
