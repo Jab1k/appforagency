@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:app_for_agency/pages/homepage/karzinka_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -19,10 +20,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final event = context.read<Mainprovider>();
     final state = context.watch<Mainprovider>();
-    final oliv =
-        state.datas!.datas[state.datas!.datas.keys.toList()[state.current]];
+    final oliv = state.isloading
+        ? Lottie.asset("assets/splash.json")
+        : state.datas?.datas[state.datas?.datas.keys.toList()[state.current]] ??
+            [];
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 221, 227, 231),
+      backgroundColor: const Color.fromARGB(255, 206, 212, 216),
       body: state.isloading
           ? Lottie.asset("assets/splash.json")
           : SafeArea(
@@ -100,13 +103,14 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: GridView.builder(
                         itemCount: state
-                            .datas!
-                            .datas[
-                                state.datas!.datas.keys.toList()[state.current]]
-                            .length,
+                                .datas
+                                ?.datas[state.datas?.datas.keys
+                                    .toList()[state.current]]
+                                .length ??
+                            0,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.690,
+                          childAspectRatio: 0.640,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
                           crossAxisCount: 2,
@@ -115,9 +119,9 @@ class _HomePageState extends State<HomePage> {
                           return Container(
                             decoration: const BoxDecoration(
                               color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(26)),
-                               ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(26)),
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -134,20 +138,27 @@ class _HomePageState extends State<HomePage> {
                                     "${oliv[index][0]}",
                                     style: const TextStyle(
                                       color: Colors.black,
-                                      fontSize: 15,
+                                      fontSize: 14,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
                                 Text(
-                                  "${oliv[index][3]}",
+                                  "Qiymati: ${oliv[index][3]}",
                                   style: const TextStyle(
                                     color: Colors.black,
-                                    fontSize: 15,
+                                    fontSize: 14,
                                   ),
                                 ),
                                 Text(
-                                  "${oliv[index][5]}",
+                                  "Kod: ${oliv[index][5]}",
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                Text(
+                                  "OST: ${oliv[index][6] ?? 0}",
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
@@ -156,7 +167,9 @@ class _HomePageState extends State<HomePage> {
                                 GestureDetector(
                                   onTap: () {
                                     event.addnewtokarzinka(
-                                        indexs: index, oliv: oliv);
+                                        indexs: index,
+                                        oliv: oliv,
+                                        context: context);
                                   },
                                   child: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -205,7 +218,8 @@ class _HomePageState extends State<HomePage> {
                                                     onTap: () {
                                                       event.addnewtokarzinka(
                                                           indexs: index,
-                                                          oliv: oliv);
+                                                          oliv: oliv,
+                                                          context: context);
                                                     },
                                                     child:
                                                         const Icon(Icons.add),
@@ -246,6 +260,44 @@ class _HomePageState extends State<HomePage> {
                             ),
                           );
                         },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          if (state.karzinka.isNotEmpty) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => KarzinkaPage(),
+                                ));
+                          }
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 77,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Color.fromARGB(255, 213, 179, 179),
+                                Colors.blue,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16),
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "Yuborish",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 18),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],

@@ -47,8 +47,11 @@ class Mainprovider extends ChangeNotifier {
   }
 
   
-  void addnewtokarzinka({required int indexs, required List oliv}) {
-    oliv[indexs][2] += 1;
+  void addnewtokarzinka({required int indexs, required List oliv, required BuildContext context}) {
+    print("$karzinka $oliv");
+    if((oliv[indexs][6] ?? 0) >=1 && oliv[indexs][2] +1 <= (oliv[indexs][6] ?? 0)){
+      print(oliv[indexs][6]);
+      oliv[indexs][2] += 1;
     bool itemExists = false;
     for (int index = 0; index < karzinka.length; index++) {
       if (karzinka[index][0] == oliv[indexs][0]) {
@@ -67,26 +70,30 @@ class Mainprovider extends ChangeNotifier {
     }
     print(karzinka);
     notifyListeners();
+    }else{
+      showTopSnackBar(
+      Overlay.of(context),
+      CustomSnackBar.error(
+        message: "Bu baxsulot ${oliv[indexs][6] ?? 0}dan ko'p emas",
+      ),
+    );
+    }
   }
 
   
   void addfornew({required int index}) {
-    karzinka[index][3] += 1;
+    print(karzinka[index][2]);
+    karzinka[index][2] += 1;
     notifyListeners();
   }
 
   void minimizefornew({required int index}) {
-    karzinka[index][3] -= 1;
+    karzinka[index][2] -= 1;
     notifyListeners();
   }
 
   void minimazekarzinka({required int index, required List oliv}) {
     oliv[index][2] = oliv[index][2] - 1;
-    notifyListeners();
-  }
-
-  void delete({required int index,  required List oliv}) {
-    oliv[index][3] = 0;
     notifyListeners();
   }
 
