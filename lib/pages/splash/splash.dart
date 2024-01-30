@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, unused_import, unused_element, non_constant_identifier_names, await_only_futures, unused_local_variable
 
+import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:app_for_agency/pages/login_pages/login_page.dart';
 import 'package:app_for_agency/repo/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -25,36 +25,38 @@ int id = 0;
 String number = "";
 
 class _SplashPageState extends State<SplashPage> {
-  Future<void> _navigateToMainScreen() async {
+   Future<void> _navigateToMainScreen() async {
     context.read<Mainprovider>().getlogins();
-    
     Islog = await UserSimplePreferences.getislogin() ?? false;
     login = await UserSimplePreferences.getlogin() ?? "";
+
     if (Islog) {
+      
     context.read<Mainprovider>().getdata(login: login);
-     
-      await Future.delayed(const Duration(milliseconds: 1000)).then((value) => {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) {
-          return const HomePage();
-        },
-      ), (route) => false)
-     });
+      await Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (context) {
+            return const HomePage();
+          },
+        ), (route) => false);
+      });
     } else {
-      await Future.delayed(const Duration(milliseconds: 1000)).then((value) => {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-        builder: (context) {
-          return const LoginPage();
-        },
-      ), (route) => false)
-     });
+      await Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+          builder: (context) {
+            return const LoginPage();
+          },
+        ), (route) => false);
+      });
     }
   }
 
   @override
   void initState() {
-    _navigateToMainScreen();
     super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _navigateToMainScreen();
+    });
   }
 
   @override
@@ -66,7 +68,7 @@ class _SplashPageState extends State<SplashPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          event.isloading ? Lottie.asset("assets/splash.json",) : const SizedBox.shrink(),
+          event.isloading ? Image.asset("assets/logo.png") : const SizedBox.shrink(),
         ],
       ),
     );

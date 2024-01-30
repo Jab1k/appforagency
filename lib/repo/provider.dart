@@ -20,7 +20,7 @@ class Mainprovider extends ChangeNotifier {
   checker(String login, String pass) {
     isloading = true;
     notifyListeners();
-    for (var element in members!.member) {
+    for (var element in members?.member ?? []) {
       if (element[0] == login && element[1] == pass) {
         return true;
       } else {
@@ -35,52 +35,53 @@ class Mainprovider extends ChangeNotifier {
   indexpages(int index, PageController pageController) {
     current = index;
     notifyListeners();
-    if(pageController.hasClients){
+    if (pageController.hasClients) {
       pageController.animateToPage(
-      current,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.ease,
-    );
+        current,
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.ease,
+      );
     }
     notifyListeners();
-
   }
 
-  
-  void addnewtokarzinka({required int indexs, required List oliv, required BuildContext context}) {
+  void addnewtokarzinka(
+      {required int indexs,
+      required List oliv,
+      required BuildContext context}) {
     print("$karzinka $oliv");
-    if((oliv[indexs][6] ?? 0) >=1 && oliv[indexs][2] +1 <= (oliv[indexs][6] ?? 0)){
+    if ((oliv[indexs][6] ?? 0) >= 1 &&
+        oliv[indexs][2] + 1 <= (oliv[indexs][6] ?? 0)) {
       print(oliv[indexs][6]);
       oliv[indexs][2] += 1;
-    bool itemExists = false;
-    for (int index = 0; index < karzinka.length; index++) {
-      if (karzinka[index][0] == oliv[indexs][0]) {
-        print(karzinka[index][0]);
-        print(oliv[indexs][0]);
-        karzinka[index][2] = oliv[indexs][2];
-        itemExists = true;
-        break;
+      bool itemExists = false;
+      for (int index = 0; index < karzinka.length; index++) {
+        if (karzinka[index][0] == oliv[indexs][0]) {
+          print(karzinka[index][0]);
+          print(oliv[indexs][0]);
+          karzinka[index][2] = oliv[indexs][2];
+          itemExists = true;
+          break;
+        }
       }
-    }
-    notifyListeners();
+      notifyListeners();
 
-    if (!itemExists) {
-      // If the item doesn't exist, add it to the karzinka list
-      karzinka.add(oliv[indexs]);
-    }
-    print(karzinka);
-    notifyListeners();
-    }else{
+      if (!itemExists) {
+        // If the item doesn't exist, add it to the karzinka list
+        karzinka.add(oliv[indexs]);
+      }
+      print(karzinka);
+      notifyListeners();
+    } else {
       showTopSnackBar(
-      Overlay.of(context),
-      CustomSnackBar.error(
-        message: "Bu baxsulot ${oliv[indexs][6] ?? 0}dan ko'p emas",
-      ),
-    );
+        Overlay.of(context),
+        CustomSnackBar.error(
+          message: "Bu baxsulot ${oliv[indexs][6] ?? 0}dan ko'p emas",
+        ),
+      );
     }
   }
 
-  
   void addfornew({required int index}) {
     print(karzinka[index][2]);
     karzinka[index][2] += 1;
@@ -89,11 +90,18 @@ class Mainprovider extends ChangeNotifier {
 
   void minimizefornew({required int index}) {
     karzinka[index][2] -= 1;
+    if (karzinka[index][2] == 0) {
+      print(karzinka[index]);
+    }
     notifyListeners();
   }
 
   void minimazekarzinka({required int index, required List oliv}) {
     oliv[index][2] = oliv[index][2] - 1;
+    if (oliv[index][2] == 0) {
+      karzinka.removeWhere((element) => oliv[index][0] == element[0]);
+    }
+    print(karzinka);
     notifyListeners();
   }
 
@@ -102,6 +110,7 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
     var a = await http.get(
       Uri.parse('https://easymobile.uz/agency/getlogins'),
+      headers: {'Content-Type': 'application/javascript'},
     );
     print(a.body);
     members = Membermodel(member: jsonDecode(a.body));
@@ -114,8 +123,11 @@ class Mainprovider extends ChangeNotifier {
     isloading = true;
     notifyListeners();
 
-    var a = await http.post(Uri.parse(
-        "https://easymobile.uz/agency/create?login=$login&password=$password"));
+    var a = await http.post(
+      Uri.parse(
+          "https://easymobile.uz/agency/create?login=$login&password=$password"),
+      headers: {'Content-Type': 'application/javascript'},
+    );
     showTopSnackBar(
       Overlay.of(context),
       CustomSnackBar.info(
@@ -129,11 +141,13 @@ class Mainprovider extends ChangeNotifier {
   getdata({String login = ""}) async {
     isloading = true;
     notifyListeners();
-    var data = await http
-        .post(Uri.parse("https://easymobile.uz/agency/getdata?login=$login"));
+    var data = await http.post(
+      Uri.parse("https://easymobile.uz/agency/getdata?login=$login"),
+      headers: {'Content-Type': 'application/javascript'},
+    );
     print(data.body);
     datas = Modeldatas.fromJson(jsonDecode(utf8.decode(data.bodyBytes)));
-    print(datas!.datas);
+    print(datas?.datas);
     isloading = false;
     notifyListeners();
   }

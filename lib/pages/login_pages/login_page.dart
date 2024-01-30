@@ -134,10 +134,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onTap: () async {
-                      print('salom ');
-                      if (event.checker(_usernameController.text,
-                              _passwordController.text) ??
-                          false) {
+                      print('salom ${_passwordController.text} ${_usernameController.text}');
+                      if (await event.checker(_usernameController.text,_passwordController.text) ??false) {
+                      print('salom ${_passwordController.text} ${_usernameController.text}');
+
                         await UserSimplePreferences.setisLogin(true);
                         await UserSimplePreferences.setlogin(_usernameController.text);
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) {

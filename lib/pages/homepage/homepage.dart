@@ -1,9 +1,10 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, avoid_print
 
 import 'package:app_for_agency/pages/homepage/karzinka_page.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../repo/provider.dart';
 
@@ -21,13 +22,13 @@ class _HomePageState extends State<HomePage> {
     final event = context.read<Mainprovider>();
     final state = context.watch<Mainprovider>();
     final oliv = state.isloading
-        ? Lottie.asset("assets/splash.json")
+        ? ""
         : state.datas?.datas[state.datas?.datas.keys.toList()[state.current]] ??
             [];
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 206, 212, 216),
       body: state.isloading
-          ? Lottie.asset("assets/splash.json")
+          ? const CircularProgressIndicator()
           : SafeArea(
               child: Container(
                 width: double.infinity,
@@ -266,12 +267,20 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
                         onTap: () {
+                          print(state.karzinka);
                           if (state.karzinka.isNotEmpty) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => KarzinkaPage(),
+                                  builder: (context) => const KarzinkaPage(),
                                 ));
+                          } else {
+                            showTopSnackBar(
+                              Overlay.of(context),
+                              const CustomSnackBar.error(
+                                message: "Siz xali maxsulot tanlamadingiz",
+                              ),
+                            );
                           }
                         },
                         child: Container(

@@ -21,7 +21,6 @@ void main() async{
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
   await UserSimplePreferences.init();
 }
 
