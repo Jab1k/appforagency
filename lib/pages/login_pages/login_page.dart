@@ -1,5 +1,5 @@
 // ignore_for_file: unused_local_variable, use_build_context_synchronously, avoid_function_literals_in_foreach_calls, avoid_print, must_be_immutable
-import 'package:app_for_agency/pages/homepage/homepage.dart';
+import 'package:app_for_agency/pages/splash/splash.dart';
 import 'package:app_for_agency/repo/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -139,8 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                               _passwordController.text) ??
                           false) {
                         await UserSimplePreferences.setisLogin(true);
+                        await UserSimplePreferences.setlogin(_usernameController.text);
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) {
-                          return HomePage();
+                          return const SplashPage();
                         },), (route) => false);
                       } else {
                         showTopSnackBar(
