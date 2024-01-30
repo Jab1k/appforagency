@@ -123,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                         border: Border.all(color: const Color(0xff2E8B57)),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(14)),
-                        color: Color(0xff2E8B57),
+                        color: const Color(0xff2E8B57),
                       ),
                       child: const Center(
                         child: Text(

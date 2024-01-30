@@ -10,3 +10,15 @@ class Membermodel {
     );
   }
 }
+
+class Modeldatas {
+  Map datas;
+
+  Modeldatas({required this.datas});
+
+  factory Modeldatas.fromJson(Map<String, dynamic> json) {
+    return Modeldatas(
+      datas: json,
+    );
+  }
+}
