@@ -14,7 +14,9 @@ Membermodel? members;
 Modeldatas? datas;
 List memberlogin = [];
 List memberpass = [];
+bool isloading = true;
   checker(String login, String pass) {
+  isloading = true;
   notifyListeners();
     for (var element in memberlogin) {
       for (var elements in memberpass) {
@@ -24,11 +26,13 @@ List memberpass = [];
         }
       }
     }
+  isloading = false;
   notifyListeners();
     return false;
   }
 
 getlogins() async {
+  isloading = true;
   notifyListeners();
   var a = await http.get(
     Uri.parse('https://easymobile.uz/agency/getlogins'),
@@ -40,9 +44,11 @@ getlogins() async {
     memberlogin.add(key);
     memberpass.add(value);
   });
+  isloading = false;
   notifyListeners();
 }
 createnewmember(BuildContext context, String login, String password) async {
+  isloading = true;
   notifyListeners();
 
   var a = await http.post(Uri.parse("https://easymobile.uz/agency/create?login=$login&password=$password"));
@@ -52,15 +58,19 @@ createnewmember(BuildContext context, String login, String password) async {
       message: a.body,
     ),
 );
+  isloading = false;
   notifyListeners();
 
 }
 
 getdata({String login = ""})async{
+  isloading = true;
   notifyListeners();
   var data = await http.post(Uri.parse("https://easymobile.uz/agency/getdata?login=$login"));
   datas = Modeldatas.fromJson(jsonDecode(utf8.decode(data.bodyBytes)));
+  isloading = false;
   notifyListeners();
 }
+
 
 }

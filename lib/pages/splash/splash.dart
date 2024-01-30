@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, unused_import, unused_element, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, unused_import, unused_element, non_constant_identifier_names, await_only_futures, unused_local_variable
 
 import 'package:app_for_agency/pages/login_pages/login_page.dart';
 import 'package:app_for_agency/repo/provider.dart';
@@ -20,25 +20,34 @@ class SplashPage extends StatefulWidget {
 }
 
 bool Islog = false;
+String login = "";
 int id = 0;
 String number = "";
 
 class _SplashPageState extends State<SplashPage> {
   Future<void> _navigateToMainScreen() async {
     context.read<Mainprovider>().getlogins();
+    
     Islog = await UserSimplePreferences.getislogin() ?? false;
+    login = await UserSimplePreferences.getlogin() ?? "";
     if (Islog) {
+    context.read<Mainprovider>().getdata(login: login);
+     
+      await Future.delayed(const Duration(milliseconds: 1000)).then((value) => {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return const HomePage();
         },
-      ), (route) => false);
+      ), (route) => false)
+     });
     } else {
+      await Future.delayed(const Duration(milliseconds: 1000)).then((value) => {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
         builder: (context) {
           return const LoginPage();
         },
-      ), (route) => false);
+      ), (route) => false)
+     });
     }
   }
 
@@ -50,12 +59,14 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
+    final event = context.read<Mainprovider>();
+    final state = context.watch<Mainprovider>();
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Lottie.asset("assets/splash.json",),
+          event.isloading ? Lottie.asset("assets/splash.json",) : const SizedBox.shrink(),
         ],
       ),
     );
