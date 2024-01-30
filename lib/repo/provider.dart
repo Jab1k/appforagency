@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, avoid_print, avoid_function_literals_in_foreach_calls
 
 import 'dart:convert';
 
@@ -12,18 +12,15 @@ import '../models/membermodel.dart';
 class Mainprovider extends ChangeNotifier{
 Membermodel? members;
 Modeldatas? datas;
-List memberlogin = [];
-List memberpass = [];
 bool isloading = true;
   checker(String login, String pass) {
   isloading = true;
   notifyListeners();
-    for (var element in memberlogin) {
-      for (var elements in memberpass) {
-        // print('$elements $element se');
-        if (element == login && elements == pass) {
-          return true;
-        }
+    for (var element in members!.member) {
+      if (element[0] == login && element[1] == pass) {
+        return true;
+      } else {
+        return false;
       }
     }
   isloading = false;
@@ -40,10 +37,6 @@ getlogins() async {
   print(a.body);
   members = Membermodel(member: jsonDecode(a.body));
   print(members?.member);
-  members?.member.forEach((key, value) {
-    memberlogin.add(key);
-    memberpass.add(value);
-  });
   isloading = false;
   notifyListeners();
 }

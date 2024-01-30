@@ -1,10 +1,10 @@
 
 class Membermodel {
-  Map member;
+  List member;
 
   Membermodel({required this.member});
 
-  factory Membermodel.fromJson(Map<String, dynamic> json) {
+  factory Membermodel.fromJson(List json) {
     return Membermodel(
       member: json,
     );
