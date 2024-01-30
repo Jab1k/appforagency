@@ -1,7 +1,9 @@
-// ignore_for_file: use_build_context_synchronously, avoid_print, avoid_function_literals_in_foreach_calls
+// ignore_for_file: unnecessary_string_interpolations, avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
 
+import 'package:app_for_agency/pages/homepage/homepage.dart';
+import 'package:app_for_agency/repo/sharedprofems/shared.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -82,16 +84,26 @@ class Mainprovider extends ChangeNotifier {
     }
   }
 
-  void addfornew({required int index}) {
+  void addfornew({required int index, required BuildContext context}) {
     print(karzinka[index][2]);
-    karzinka[index][2] += 1;
+    if ((karzinka[index][6] ?? 0) >= 1 &&
+        karzinka[index][2] + 1 <= (karzinka[index][6] ?? 0)) {
+      karzinka[index][2] += 1;
+    } else {
+      showTopSnackBar(
+        Overlay.of(context),
+        CustomSnackBar.error(
+          message: "Bu baxsulot ${karzinka[index][6] ?? 0}dan ko'p emas",
+        ),
+      );
+    }
     notifyListeners();
   }
 
   void minimizefornew({required int index}) {
     karzinka[index][2] -= 1;
     if (karzinka[index][2] == 0) {
-      print(karzinka[index]);
+      karzinka.removeWhere((element) => karzinka[index][0] == element[0]);
     }
     notifyListeners();
   }
@@ -138,6 +150,46 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String login = "";
+  String pass = "";
+  postdata({required List oliv, required BuildContext context}) async {
+    isloading = true;
+    notifyListeners();
+    print(oliv);
+    login = await UserSimplePreferences.getlogin() ?? "";
+    pass = await UserSimplePreferences.getpass() ?? "";
+    final data = await http.post(
+      Uri.parse(
+          "https://easymobile.uz/send_message_agency?login=$login&password=$pass"),
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({"1": oliv}),
+    );
+    
+    if(data.statusCode == 200){
+      showTopSnackBar(
+      Overlay.of(context),
+       const CustomSnackBar.success(
+        message: "Muvoffaqiyatli jo'natildi",
+      ),
+    );
+    }else{
+      showTopSnackBar(
+      Overlay.of(context),
+       const CustomSnackBar.error(
+        message: "Muvoffaqiyatli jo'natilmadi",
+      ),
+    );
+    }
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) {
+                  return const HomePage();
+                },), (route) => false);
+    isloading = false;
+    notifyListeners();
+  }
+
   getdata({String login = ""}) async {
     isloading = true;
     notifyListeners();
@@ -151,4 +203,6 @@ class Mainprovider extends ChangeNotifier {
     isloading = false;
     notifyListeners();
   }
+
+  //
 }

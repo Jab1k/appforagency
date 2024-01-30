@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 206, 212, 216),
       body: state.isloading
-          ? const CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : SafeArea(
               child: Container(
                 width: double.infinity,
@@ -111,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                             0,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.640,
                           crossAxisSpacing: 12,
+                          childAspectRatio: 0.6,
                           mainAxisSpacing: 12,
                           crossAxisCount: 2,
                         ),

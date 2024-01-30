@@ -21,6 +21,7 @@ class SplashPage extends StatefulWidget {
 
 bool Islog = false;
 String login = "";
+String pass = "";
 int id = 0;
 String number = "";
 
@@ -29,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
     context.read<Mainprovider>().getlogins();
     Islog = await UserSimplePreferences.getislogin() ?? false;
     login = await UserSimplePreferences.getlogin() ?? "";
-
+    pass = await UserSimplePreferences.getpass() ?? "";
     if (Islog) {
       
     context.read<Mainprovider>().getdata(login: login);

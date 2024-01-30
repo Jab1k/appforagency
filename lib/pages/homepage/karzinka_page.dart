@@ -31,7 +31,7 @@ class _KarzinkaPageState extends State<KarzinkaPage> {
             child: GridView.builder(
               gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.690,
+                          childAspectRatio: 0.6,
                           crossAxisSpacing: 12,
                           mainAxisSpacing: 12,
                           crossAxisCount: 2,
@@ -82,10 +82,17 @@ class _KarzinkaPageState extends State<KarzinkaPage> {
                               fontSize: 14,
                             ),
                           ),
+                           Text(
+                                  "OST: ${state.karzinka[index][6] ?? 0}",
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 12,
+                                  ),
+                                ),
                           GestureDetector(
                             onTap: () {
                               event.addfornew(
-                                index: index,
+                                index: index, context: context,
                               );
                             },
                             child: Padding(
@@ -133,7 +140,7 @@ class _KarzinkaPageState extends State<KarzinkaPage> {
                                           GestureDetector(
                                             onTap: () {
                                               event.addfornew(
-                                                index: index,
+                                                index: index, context: context,
                                               );
                                             },
                                             child: const Icon(Icons.add),
@@ -179,14 +186,7 @@ class _KarzinkaPageState extends State<KarzinkaPage> {
             padding: const EdgeInsets.all(8.0),
             child: InkWell(
               onTap: () {
-                cost = 0;
-                summa = 0;
-                for (var element in state.karzinka) {
-                  print(element);
-                  cost = element[3].toInt() * element[2].toInt();
-                  summa += cost;
-                }
-                print(summa);
+                event.postdata(oliv: state.karzinka, context: context);
                 
               },
               child: Container(

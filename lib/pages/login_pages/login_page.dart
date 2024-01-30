@@ -140,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         await UserSimplePreferences.setisLogin(true);
                         await UserSimplePreferences.setlogin(_usernameController.text);
+                        await UserSimplePreferences.setpass(_passwordController.text);
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) {
                           return const SplashPage();
                         },), (route) => false);
