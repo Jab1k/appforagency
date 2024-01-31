@@ -187,7 +187,6 @@ class _KarzinkaPageState extends State<KarzinkaPage> {
             child: InkWell(
               onTap: () {
                 event.postdata(oliv: state.karzinka, context: context);
-                
               },
               child: Container(
                 width: double.infinity,

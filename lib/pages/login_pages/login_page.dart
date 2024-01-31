@@ -137,7 +137,6 @@ class _LoginPageState extends State<LoginPage> {
                       print('salom ${_passwordController.text} ${_usernameController.text}');
                       if (await event.checker(_usernameController.text,_passwordController.text) ??false) {
                       print('salom ${_passwordController.text} ${_usernameController.text}');
-
                         await UserSimplePreferences.setisLogin(true);
                         await UserSimplePreferences.setlogin(_usernameController.text);
                         await UserSimplePreferences.setpass(_passwordController.text);

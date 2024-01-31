@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:app_for_agency/pages/homepage/homepage.dart';
+import 'package:app_for_agency/pages/splash/splash.dart';
 import 'package:app_for_agency/repo/sharedprofems/shared.dart';
 import 'package:flutter/material.dart';
 
@@ -157,6 +158,7 @@ class Mainprovider extends ChangeNotifier {
     print(oliv);
     login = await UserSimplePreferences.getlogin() ?? "";
     pass = await UserSimplePreferences.getpass() ?? "";
+    print("${pass}, ${login}");
     final data = await http.post(
       Uri.parse(
           "https://easymobile.uz/send_message_agency?login=$login&password=$pass"),
@@ -166,8 +168,8 @@ class Mainprovider extends ChangeNotifier {
       },
       body: jsonEncode({"1": oliv}),
     );
-    
     if(data.statusCode == 200){
+      karzinka.clear();
       showTopSnackBar(
       Overlay.of(context),
        const CustomSnackBar.success(
@@ -183,7 +185,7 @@ class Mainprovider extends ChangeNotifier {
     );
     }
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context) {
-                  return const HomePage();
+                  return const SplashPage();
                 },), (route) => false);
     isloading = false;
     notifyListeners();

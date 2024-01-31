@@ -31,6 +31,7 @@ class _SplashPageState extends State<SplashPage> {
     Islog = await UserSimplePreferences.getislogin() ?? false;
     login = await UserSimplePreferences.getlogin() ?? "";
     pass = await UserSimplePreferences.getpass() ?? "";
+    // await UserSimplePreferences.setisLogin(false);
     if (Islog) {
       
     context.read<Mainprovider>().getdata(login: login);
