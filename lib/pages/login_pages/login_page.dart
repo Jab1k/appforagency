@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Padding(
                   padding: EdgeInsets.only(right: 10, left: 20),
                   child: Text(
-                    'Hisob-Kitobni biz bilan        osonlashtiring!',
+                    'Hisob-Kitobni biz bilan osonlashtiring!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,

@@ -122,7 +122,6 @@ class Mainprovider extends ChangeNotifier {
     notifyListeners();
     var a = await http.get(
       Uri.parse('https://easymobile.uz/agency/getlogins'),
-      headers: {'Content-Type': 'application/javascript'},
     );
     print(a.body);
     members = Membermodel(member: jsonDecode(a.body));
